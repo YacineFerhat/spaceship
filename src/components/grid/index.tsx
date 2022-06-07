@@ -6,6 +6,10 @@ interface Props {
   elements: number;
 }
 
+const margin = {
+  marginTop: "12px",
+  marginBottom: "12px",
+};
 export const Grid: FC<Props> = ({ elements }) => {
   const [obstaclesArray, setObstaclesArray] = useState<any>([]);
   const facings = ["N", "E", "S", "W"];
@@ -56,12 +60,7 @@ export const Grid: FC<Props> = ({ elements }) => {
         ))}
       </div>
       Starting point : (0, 0, N)
-      <div
-        style={{
-          marginTop: "12px",
-          marginBottom: "12px",
-        }}
-      >
+      <div style={margin}>
         Current position : ({positions.x},{positions.y},{facings[facingIndex]} )
       </div>
       {obstaclesArray.length > 0 && (

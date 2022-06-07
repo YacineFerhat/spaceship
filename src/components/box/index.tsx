@@ -25,6 +25,7 @@ export const Box: FC<Props> = ({
     if (element.x === x && element.y === y) {
       return true;
     }
+    return false;
   });
   return (
     <div

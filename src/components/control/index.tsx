@@ -24,6 +24,15 @@ const button = {
   cursor: "pointer",
 };
 
+const flex = { width: "100%", justifyContent: "center", display: "flex" };
+
+const buttonHolder = {
+  display: "flex",
+  justifyItems: "center",
+  justifyContent: "center",
+  marginTop: 8,
+};
+
 export const Control: FC<Props> = ({
   elements,
   handleChangeFacing,
@@ -163,21 +172,12 @@ export const Control: FC<Props> = ({
           justifyContent: "center",
         }}
       >
-        <div
-          style={{ width: "100%", justifyContent: "center", display: "flex" }}
-        >
+        <div style={flex}>
           <button onClick={() => handleMovement("F")} style={button}>
             F
           </button>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyItems: "center",
-            justifyContent: "center",
-            marginTop: 8,
-          }}
-        >
+        <div style={buttonHolder}>
           <button onClick={() => handleRotation("L")} style={button}>
             L
           </button>
