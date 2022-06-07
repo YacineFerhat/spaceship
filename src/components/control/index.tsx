@@ -1,4 +1,4 @@
-import { useEffect, FC } from "react";
+import { FC } from "react";
 import { obstacles } from "data";
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
   handleChangeFacing: any;
   facingIndex: number;
   positions: Position;
+  handleObstacleArray: any;
 }
 interface Position {
   x: number;
@@ -29,12 +30,14 @@ export const Control: FC<Props> = ({
   facingIndex,
   handleChangePositions,
   positions,
+  handleObstacleArray,
 }) => {
   const facings = ["N", "E", "S", "W"];
 
   const isObstacle = (x: number, y: number) => {
     return obstacles.some((element) => {
       if (element.x === x && element.y === y) {
+        handleObstacleArray({ x, y });
         return true;
       }
       return false;
@@ -45,9 +48,7 @@ export const Control: FC<Props> = ({
     if (positions.y !== elements - 1) {
       handleChangePositions(
         "y",
-        isObstacle(positions.x, positions.y + 1)
-          ? positions.y + 2
-          : positions.y + 1
+        isObstacle(positions.x, positions.y + 1) ? positions.y : positions.y + 1
       );
     } else {
       resetY();
@@ -58,9 +59,7 @@ export const Control: FC<Props> = ({
     if (positions.y !== 0) {
       handleChangePositions(
         "y",
-        isObstacle(positions.x, positions.y - 1)
-          ? positions.y - 2
-          : positions.y - 1
+        isObstacle(positions.x, positions.y - 1) ? positions.y : positions.y - 1
       );
     } else {
       handleChangePositions("y", elements - 1);
@@ -71,9 +70,7 @@ export const Control: FC<Props> = ({
     if (positions.x !== elements - 1) {
       handleChangePositions(
         "x",
-        isObstacle(positions.x + 1, positions.y)
-          ? positions.x + 2
-          : positions.x + 1
+        isObstacle(positions.x + 1, positions.y) ? positions.x : positions.x + 1
       );
     } else {
       resetX();
@@ -84,9 +81,7 @@ export const Control: FC<Props> = ({
     if (positions.x !== 0) {
       handleChangePositions(
         "x",
-        isObstacle(positions.x - 1, positions.y)
-          ? positions.x - 2
-          : positions.x - 1
+        isObstacle(positions.x - 1, positions.y) ? positions.x : positions.x - 1
       );
     } else {
       handleChangePositions("x", elements - 1);
@@ -153,15 +148,6 @@ export const Control: FC<Props> = ({
   const resetY = () => {
     handleChangePositions("y", 0);
   };
-
-  useEffect(() => {
-    if (positions.x >= elements) {
-      resetX();
-    }
-    if (positions.y >= elements) {
-      resetY();
-    }
-  }, [positions.x, positions.y]);
 
   return (
     <div

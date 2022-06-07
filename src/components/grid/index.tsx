@@ -7,6 +7,7 @@ interface Props {
 }
 
 export const Grid: FC<Props> = ({ elements }) => {
+  const [obstaclesArray, setObstaclesArray] = useState<any>([]);
   const facings = ["N", "E", "S", "W"];
   const [facingIndex, setFacingIndex] = useState(0);
   const [positions, setPositions] = useState({
@@ -14,16 +15,24 @@ export const Grid: FC<Props> = ({ elements }) => {
     y: 0,
   });
 
+  const handleObstacleArray = (obj: any) => {
+    const populated = obstaclesArray.some((element: any) => {
+      return element.x === obj.x && element.y === obj.y;
+    });
+    if (!populated) {
+      setObstaclesArray([...obstaclesArray, obj]);
+    }
+  };
   const handleChangePositions = (position: string, value: number) => {
     setPositions((prevState) => ({
       ...prevState,
       [`${position}`]: value,
     }));
   };
-  console.log(positions);
   const handleChangeFacing = (state: number) => {
     setFacingIndex(state);
   };
+  console.log(obstaclesArray);
   return (
     <div>
       <div
@@ -50,11 +59,23 @@ export const Grid: FC<Props> = ({ elements }) => {
       <div
         style={{
           marginTop: "12px",
+          marginBottom: "12px",
         }}
       >
         Current position : ({positions.x},{positions.y},{facings[facingIndex]} )
       </div>
+      {obstaclesArray.length > 0 && (
+        <div>
+          Obstacles at :
+          <ul>
+            {obstaclesArray.map((obj: any, index: number) => (
+              <li key={index}>{`X: ${obj.x}, Y: ${obj.y}`}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <Control
+        handleObstacleArray={handleObstacleArray}
         positions={positions}
         handleChangePositions={handleChangePositions}
         handleChangeFacing={handleChangeFacing}
